@@ -3,6 +3,7 @@ const { fetchPosts, fetchPost } = require('../../controllers/posts');
 const { fetchComments, fetchComment } = require('../../controllers/comments');
 const { fetchAlbums, fetchAlbum } = require('../../controllers/albums');
 const { fetchPhotos, fetchPhoto } = require('../../controllers/photos');
+const { fetchTodos, fetchTodo } = require('../../controllers/todos');
 
 const resolvers = {
   Query: {
@@ -20,6 +21,9 @@ const resolvers = {
 
     photos: async () => fetchPhotos(),
     photo: async (_, { id }) => fetchPhoto(id),
+
+    todos: async () => fetchTodos(),
+    todo: async (_, { id }) => fetchTodo(id),
   },
 };
 

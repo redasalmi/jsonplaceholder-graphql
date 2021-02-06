@@ -1,0 +1,13 @@
+# import User from 'users.graphql'
+
+type Todo {
+  id: String
+  title: String
+  completed: Boolean
+  user: User
+}
+
+type Query {
+  todos: [Todo]
+  todo(id: String!): Todo
+}
