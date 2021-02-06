@@ -1,13 +1,9 @@
-const fetch = require('node-fetch');
+const fetchData = require('../../utils/fetch');
 
 const resolvers = {
   Query: {
-    users: async () => {
-      const res = await fetch('https://jsonplaceholder.typicode.com/users');
-      const json = await res.json();
-
-      return json;
-    },
+    users: async () => fetchData('/users'),
+    user: async (_, { id }) => fetchData(`/users/${id}`),
   },
 };
 
