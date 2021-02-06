@@ -1,0 +1,13 @@
+# import User from 'users.graphql'
+
+type Post {
+  id: Int
+  title: String
+  body: String
+  user: User
+}
+
+type Query {
+  posts: [Post]
+  post(id: String): Post
+}
