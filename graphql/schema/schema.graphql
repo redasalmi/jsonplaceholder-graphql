@@ -2,3 +2,4 @@
 # import 'posts.graphql'
 # import 'comments.graphql'
 # import 'albums.graphql'
+# import 'photos.graphql'

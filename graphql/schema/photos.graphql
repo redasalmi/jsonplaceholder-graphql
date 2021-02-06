@@ -1,0 +1,14 @@
+# import Album from 'albums.graphql'
+
+type Photo {
+  id: String
+  title: String
+  url: String
+  thumbnailUrl: String
+  album: Album
+}
+
+type Query {
+  photos: [Photo]
+  photo(id: String!): Photo
+}
