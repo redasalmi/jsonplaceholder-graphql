@@ -1,9 +1,9 @@
 {
   "name": "jsonplaceholder-graphql",
   "version": "1.0.0",
-  "description": "a graphql version of the jsonplaceholder rest API",
+  "description": "a graphql version of the jsonplaceholder Rest API",
   "main": "server.js",
-  "repository": "git@github.com:redasalmi/jsonplaceholder-graphql.git",
+  "repository": "https://github.com/redasalmi/jsonplaceholder-graphql.git",
   "author": "redasalmi <reda.salmi.elt@gmail.com>",
   "license": "MIT",
   "scripts": {
