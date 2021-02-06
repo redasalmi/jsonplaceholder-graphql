@@ -1,0 +1,12 @@
+# import User from 'users.graphql'
+
+type Album {
+  id: String
+  title: String
+  user: User
+}
+
+type Query {
+  albums: [Album]
+  album(id: String!): Album
+}

@@ -1,3 +1,4 @@
 # import 'users.graphql'
 # import 'posts.graphql'
 # import 'comments.graphql'
+# import 'albums.graphql'

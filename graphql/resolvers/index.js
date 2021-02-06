@@ -1,6 +1,7 @@
 const fetchData = require('../../utils/fetch');
 const { fetchPosts, fetchPost } = require('../../controllers/posts');
 const { fetchComments, fetchComment } = require('../../controllers/comments');
+const { fetchAlbums, fetchAlbum } = require('../../controllers/albums');
 
 const resolvers = {
   Query: {
@@ -12,6 +13,9 @@ const resolvers = {
 
     comments: async () => fetchComments(),
     comment: async (_, { id }) => fetchComment(id),
+
+    albums: async () => fetchAlbums(),
+    album: async (_, { id }) => fetchAlbum(id),
   },
 };
 
