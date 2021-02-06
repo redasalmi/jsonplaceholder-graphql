@@ -12,7 +12,6 @@ const fetchPhotos = async () => {
   });
 
   const albums = await Promise.all(albumIds.map(async (id) => fetchAlbum(id)));
-
   photos.map(
     (photo) => (photo.album = albums.find(({ id }) => id === photo.albumId))
   );

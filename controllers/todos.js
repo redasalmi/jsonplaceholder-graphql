@@ -1,4 +1,5 @@
 const fetchData = require('../utils/fetch');
+const { fetchUser } = require('./users');
 
 const fetchTodos = async () => {
   const todos = await fetchData('/todos');
@@ -10,10 +11,7 @@ const fetchTodos = async () => {
     }
   });
 
-  const users = await Promise.all(
-    userIds.map(async (id) => fetchData(`/users/${id}`))
-  );
-
+  const users = await Promise.all(userIds.map(async (id) => fetchUser(id)));
   todos.map((todo) => (todo.user = users.find(({ id }) => id === todo.userId)));
 
   return todos;
@@ -21,7 +19,7 @@ const fetchTodos = async () => {
 
 const fetchTodo = async (id) => {
   const todo = await fetchData(`/todos/${id}`);
-  const user = await fetchData(`/users/${todo.userId}`);
+  const user = await fetchUser(todo.userId);
   todo.user = user;
 
   return todo;

@@ -12,7 +12,6 @@ const fetchComments = async () => {
   });
 
   const posts = await Promise.all(postIds.map(async (id) => fetchPost(id)));
-
   comments.map(
     (comment) => (comment.post = posts.find(({ id }) => id === comment.postId))
   );

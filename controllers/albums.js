@@ -1,4 +1,5 @@
 const fetchData = require('../utils/fetch');
+const { fetchUser } = require('./users');
 
 const fetchAlbums = async () => {
   const albums = await fetchData('/albums');
@@ -10,10 +11,7 @@ const fetchAlbums = async () => {
     }
   });
 
-  const users = await Promise.all(
-    userIds.map(async (id) => fetchData(`/users/${id}`))
-  );
-
+  const users = await Promise.all(userIds.map(async (id) => fetchUser(id)));
   albums.map(
     (album) => (album.user = users.find(({ id }) => id === album.userId))
   );
@@ -23,7 +21,7 @@ const fetchAlbums = async () => {
 
 const fetchAlbum = async (id) => {
   const album = await fetchData(`/albums/${id}`);
-  const user = await fetchData(`/users/${album.userId}`);
+  const user = await fetchUser(album.userId);
   album.user = user;
 
   return album;

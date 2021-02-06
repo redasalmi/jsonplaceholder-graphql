@@ -1,4 +1,5 @@
 const fetchData = require('../utils/fetch');
+const { fetchUser } = require('./users');
 
 const fetchPosts = async () => {
   const posts = await fetchData('/posts');
@@ -10,10 +11,7 @@ const fetchPosts = async () => {
     }
   });
 
-  const users = await Promise.all(
-    userIds.map(async (id) => fetchData(`/users/${id}`))
-  );
-
+  const users = await Promise.all(userIds.map(async (id) => fetchUser(id)));
   posts.map((post) => (post.user = users.find(({ id }) => id === post.userId)));
 
   return posts;
@@ -21,7 +19,7 @@ const fetchPosts = async () => {
 
 const fetchPost = async (id) => {
   const post = await fetchData(`/posts/${id}`);
-  const user = await fetchData(`/users/${post.userId}`);
+  const user = await fetchUser(post.userId);
   post.user = user;
 
   return post;
