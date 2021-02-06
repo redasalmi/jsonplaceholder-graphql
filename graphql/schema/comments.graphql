@@ -1,0 +1,14 @@
+# import Post from 'posts.graphql'
+
+type Comment {
+  id: String
+  name: String
+  email: String
+  body: String
+  post: Post
+}
+
+type Query {
+  comments: [Comment]
+  comment(id: String!): Comment
+}
