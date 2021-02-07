@@ -1,7 +1,17 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![MIT License][license-shield]][license-url]
+<p align="center">
+  <a href="https://github.com/redasalmi/jsonplaceholder-graphql/graphs/contributors"> 
+    <img src="https://img.shields.io/github/contributors/redasalmi/jsonplaceholder-graphql.svg?style=for-the-badge" />
+  </a>
+  <a href="https://github.com/redasalmi/jsonplaceholder-graphql/network/members"> 
+    <img src="https://img.shields.io/github/forks/redasalmi/jsonplaceholder-graphql.svg?style=for-the-badge" />
+  </a>
+  <a href="https://github.com/redasalmi/jsonplaceholder-graphql/stargazers"> 
+    <img src="https://img.shields.io/github/stars/redasalmi/jsonplaceholder-graphql.svg?style=for-the-badge" />
+  </a>
+  <a href="https://github.com/redasalmi/jsonplaceholder-graphql/blob/main/LICENSE"> 
+    <img src="https://img.shields.io/github/license/redasalmi/jsonplaceholder-graphql.svg?style=for-the-badge" />
+  </a>
+</p>
 
 <br />
 <p align="center">
@@ -77,12 +87,3 @@ To get a local copy up and running follow these instructions.
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-[contributors-shield]: https://img.shields.io/github/contributors/redasalmi/jsonplaceholder-graphql.svg?style=for-the-badge
-[contributors-url]: https://github.com/redasalmi/jsonplaceholder-graphql/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/redasalmi/jsonplaceholder-graphql.svg?style=for-the-badge
-[forks-url]: https://github.com/redasalmi/jsonplaceholder-graphql/network/members
-[stars-shield]: https://img.shields.io/github/stars/redasalmi/jsonplaceholder-graphql.svg?style=for-the-badge
-[stars-url]: https://github.com/redasalmi/jsonplaceholder-graphql/stargazers
-[license-shield]: https://img.shields.io/github/license/redasalmi/jsonplaceholder-graphql.svg?style=for-the-badge
-[license-url]: https://github.com/redasalmi/jsonplaceholder-graphql/blob/main/LICENSE
