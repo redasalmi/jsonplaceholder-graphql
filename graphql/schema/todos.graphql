@@ -1,7 +1,7 @@
 # import User from 'users.graphql'
 
 type Todo {
-  id: String
+  id: Int
   title: String
   completed: Boolean
   user: User
@@ -9,5 +9,5 @@ type Todo {
 
 type Query {
   todos: [Todo]
-  todo(id: String!): Todo
+  todo(id: Int!): Todo
 }

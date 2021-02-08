@@ -17,6 +17,6 @@ app.use(
 
 // graphql
 app.use('/graphql', grapqlHttp);
-app.get('/', graphqlPlayground);
+app.get('/playground', graphqlPlayground);
 
 app.listen(PORT, () => console.log(`server is running on port ${PORT}`));

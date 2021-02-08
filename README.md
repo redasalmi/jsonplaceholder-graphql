@@ -44,7 +44,7 @@
 
 ## About The Project
 
-This is a GraphQL version of the {JSON} Placeholder Rest API found here: [jsonplaceholder-api](https://jsonplaceholder.typicode.com/). the app aims to reproduce the same API in GarphQL, it can be found online at this address: [jsonplaceholder-graphql](https://jsonplaceholdergraphql.herokuapp.com/).
+This is a GraphQL version of the {JSON} Placeholder Rest API found here: [jsonplaceholder-api](https://jsonplaceholder.typicode.com/). the app aims to reproduce the same API in GarphQL, it can be found online at this address: [jsonplaceholder-graphql](https://jsonplaceholdergraphql.herokuapp.com/playground).
 
 ### Built With
 

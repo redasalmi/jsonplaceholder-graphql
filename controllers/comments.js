@@ -1,8 +1,8 @@
-const fetchData = require('../utils/fetch');
+const { fetchData, fetchById } = require('../utils/fetch');
 const { fetchPost } = require('./posts');
 
-const fetchComments = async () => {
-  const comments = await fetchData('/comments');
+const fetchComments = () => {
+  const comments = fetchData('comments');
 
   const postIds = [];
   comments.forEach(({ postId }) => {
@@ -11,7 +11,7 @@ const fetchComments = async () => {
     }
   });
 
-  const posts = await Promise.all(postIds.map(async (id) => fetchPost(id)));
+  const posts = postIds.map((id) => fetchPost(id));
   comments.map(
     (comment) => (comment.post = posts.find(({ id }) => id === comment.postId))
   );
@@ -19,9 +19,9 @@ const fetchComments = async () => {
   return comments;
 };
 
-const fetchComment = async (id) => {
-  const comment = await fetchData(`/comments/${id}`);
-  const post = await fetchPost(comment.postId);
+const fetchComment = (id) => {
+  const comment = fetchById('comments', id);
+  const post = fetchPost(comment.postId);
   comment.post = post;
 
   return comment;

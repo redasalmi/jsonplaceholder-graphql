@@ -1,7 +1,7 @@
 # import Post from 'posts.graphql'
 
 type Comment {
-  id: String
+  id: Int
   name: String
   email: String
   body: String
@@ -10,5 +10,5 @@ type Comment {
 
 type Query {
   comments: [Comment]
-  comment(id: String!): Comment
+  comment(id: Int!): Comment
 }

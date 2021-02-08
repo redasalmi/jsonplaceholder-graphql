@@ -1,7 +1,7 @@
 # import Album from 'albums.graphql'
 
 type Photo {
-  id: String
+  id: Int
   title: String
   url: String
   thumbnailUrl: String
@@ -10,5 +10,5 @@ type Photo {
 
 type Query {
   photos: [Photo]
-  photo(id: String!): Photo
+  photo(id: Int!): Photo
 }
