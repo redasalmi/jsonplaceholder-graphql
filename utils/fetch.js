@@ -1,13 +1,6 @@
-const fetch = require('node-fetch');
+const db = require('../config/db');
 
-const baseUrl = 'https://jsonplaceholder.typicode.com';
+const fetchData = (property) => db.get(property).value();
+const fetchById = (property, id) => db.get(property).find({ id }).value();
 
-const fetchData = async (endpoint) => {
-  const url = `${baseUrl}${endpoint}`;
-  const resp = await fetch(url);
-  const json = await resp.json();
-
-  return json;
-};
-
-module.exports = fetchData;
+module.exports = { fetchData, fetchById };
