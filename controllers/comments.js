@@ -42,6 +42,7 @@ const createComment = (comment, post) => {
   const newComment = {
     id: commentId,
     ...comment,
+
     post: {
       id: postId,
       ...post,
@@ -62,6 +63,7 @@ const updateComment = (id, comment, post) => {
   const updatedComment = {
     ...com,
     ...comment,
+
     post: {
       ...com.post,
       ...post,

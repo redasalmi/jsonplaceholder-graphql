@@ -34,7 +34,8 @@ const fetchAlbum = (id) => {
   return album;
 };
 
-const createAlbum = (title, user) => {
+const createAlbum = (albumParam) => {
+  const { title, user } = albumParam;
   const albumId = getPropertyLength('albums') + 1;
   const userId = getPropertyLength('users') + 1;
 
@@ -50,7 +51,8 @@ const createAlbum = (title, user) => {
   return newAlbum;
 };
 
-const updateAlbum = (id, title, user) => {
+const updateAlbum = (id, albumParam) => {
+  const { title, user } = albumParam;
   const album = fetchAlbum(id);
 
   const updatedAlbum = {

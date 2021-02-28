@@ -13,7 +13,13 @@ const {
   updateAlbum,
   deleteAlbum,
 } = require('../../controllers/albums');
-const { fetchPhotos, fetchPhoto } = require('../../controllers/photos');
+const {
+  fetchPhotos,
+  fetchPhoto,
+  createPhoto,
+  updatePhoto,
+  deletePhoto,
+} = require('../../controllers/photos');
 const { fetchTodos, fetchTodo } = require('../../controllers/todos');
 const { fetchUsers, fetchUser } = require('../../controllers/users');
 
@@ -44,9 +50,13 @@ const resolvers = {
       updateComment(id, comment, post),
     deleteComment: (_, { id }) => deleteComment(id),
 
-    createAlbum: (_, { title, user }) => createAlbum(title, user),
-    updateAlbum: (_, { id, title, user }) => updateAlbum(id, title, user),
+    createAlbum: (_, { album }) => createAlbum(album),
+    updateAlbum: (_, { id, album }) => updateAlbum(id, album),
     deleteAlbum: (_, { id }) => deleteAlbum(id),
+
+    createPhoto: (_, { photo }) => createPhoto(photo),
+    updatePhoto: (_, { id, photo }) => updatePhoto(id, photo),
+    deletePhoto: (_, { id }) => deletePhoto(id),
   },
 };
 

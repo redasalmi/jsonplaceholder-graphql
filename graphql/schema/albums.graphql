@@ -1,6 +1,11 @@
 # import User from 'users.graphql'
 # import UserInput from 'users.graphql'
 
+input AlbumInput {
+  title: String!
+  user: UserInput
+}
+
 type Album {
   id: Int
   title: String
@@ -13,7 +18,7 @@ type Query {
 }
 
 type Mutation {
-  createAlbum(title: String!, user: UserInput): Album
-  updateAlbum(id: Int!, title: String!, user: UserInput): Album
+  createAlbum(album: AlbumInput): Album
+  updateAlbum(id: Int!, album: AlbumInput): Album
   deleteAlbum(id: Int!): Boolean
 }

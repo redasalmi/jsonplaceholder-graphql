@@ -1,4 +1,12 @@
 # import Album from 'albums.graphql'
+# import AlbumInput from 'albums.graphql'
+
+input PhotoInput {
+  title: String
+  url: String
+  thumbnailUrl: String
+  album: AlbumInput
+}
 
 type Photo {
   id: Int
@@ -11,4 +19,10 @@ type Photo {
 type Query {
   photos: [Photo]
   photo(id: Int!): Photo
+}
+
+type Mutation {
+  createPhoto(photo: PhotoInput): Photo
+  updatePhoto(id: Int!, photo: PhotoInput): Photo
+  deletePhoto(id: Int!): Boolean
 }
