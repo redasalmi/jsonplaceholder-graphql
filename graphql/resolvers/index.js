@@ -1,5 +1,11 @@
 const { fetchPosts, fetchPost } = require('../../controllers/posts');
-const { fetchComments, fetchComment } = require('../../controllers/comments');
+const {
+  fetchComments,
+  fetchComment,
+  createComment,
+  updateComment,
+  deleteComment,
+} = require('../../controllers/comments');
 const {
   fetchAlbums,
   fetchAlbum,
@@ -33,6 +39,11 @@ const resolvers = {
   },
 
   Mutation: {
+    createComment: (_, { comment, post }) => createComment(comment, post),
+    updateComment: (_, { id, comment, post }) =>
+      updateComment(id, comment, post),
+    deleteComment: (_, { id }) => deleteComment(id),
+
     createAlbum: (_, { title, user }) => createAlbum(title, user),
     updateAlbum: (_, { id, title, user }) => updateAlbum(id, title, user),
     deleteAlbum: (_, { id }) => deleteAlbum(id),

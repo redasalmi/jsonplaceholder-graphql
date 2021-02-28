@@ -1,4 +1,11 @@
 # import Post from 'posts.graphql'
+# import PostInput from 'posts.graphql'
+
+input CommentInput {
+  name: String
+  email: String
+  body: String
+}
 
 type Comment {
   id: Int
@@ -11,4 +18,10 @@ type Comment {
 type Query {
   comments: [Comment]
   comment(id: Int!): Comment
+}
+
+type Mutation {
+  createComment(comment: CommentInput, post: PostInput): Comment
+  updateComment(id: Int!, comment: CommentInput, post: PostInput): Comment
+  deleteComment(id: Int!): Boolean
 }

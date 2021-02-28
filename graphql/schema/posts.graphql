@@ -1,4 +1,11 @@
 # import User from 'users.graphql'
+# import UserInput from 'users.graphql'
+
+input PostInput {
+  title: String
+  body: String
+  user: UserInput
+}
 
 type Post {
   id: Int
