@@ -1,6 +1,12 @@
 const { fetchPosts, fetchPost } = require('../../controllers/posts');
 const { fetchComments, fetchComment } = require('../../controllers/comments');
-const { fetchAlbums, fetchAlbum } = require('../../controllers/albums');
+const {
+  fetchAlbums,
+  fetchAlbum,
+  createAlbum,
+  updateAlbum,
+  deleteAlbum,
+} = require('../../controllers/albums');
 const { fetchPhotos, fetchPhoto } = require('../../controllers/photos');
 const { fetchTodos, fetchTodo } = require('../../controllers/todos');
 const { fetchUsers, fetchUser } = require('../../controllers/users');
@@ -24,6 +30,12 @@ const resolvers = {
 
     users: async () => fetchUsers(),
     user: async (_, { id }) => fetchUser(id),
+  },
+
+  Mutation: {
+    createAlbum: (_, { title, user }) => createAlbum(title, user),
+    updateAlbum: (_, { id, title, user }) => updateAlbum(id, title, user),
+    deleteAlbum: (_, { id }) => deleteAlbum(id),
   },
 };
 

@@ -3,4 +3,6 @@ const db = require('../config/db');
 const fetchData = (property) => db.get(property).value();
 const fetchById = (property, id) => db.get(property).find({ id }).value();
 
-module.exports = { fetchData, fetchById };
+const getPropertyLength = (property) => db.get(property).value().length;
+
+module.exports = { fetchData, fetchById, getPropertyLength };

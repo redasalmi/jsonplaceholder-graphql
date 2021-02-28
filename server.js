@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const compression = require('compression');
 const helmet = require('helmet');
 
@@ -14,6 +15,9 @@ app.use(
     contentSecurityPolicy: false,
   })
 );
+
+// public folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // graphql
 app.use('/graphql', grapqlHttp);

@@ -1,3 +1,32 @@
+input UserInput {
+  name: String
+  username: String
+  email: String
+  address: AddressInput
+  phone: String
+  website: String
+  company: CompanyInput
+}
+
+input AddressInput {
+  street: String
+  suite: String
+  city: String
+  zipcode: String
+  geo: GeoLocalisationInput
+}
+
+input GeoLocalisationInput {
+  lat: String
+  lng: String
+}
+
+input CompanyInput {
+  name: String
+  catchPhrase: String
+  bs: String
+}
+
 type User {
   id: Int
   name: String

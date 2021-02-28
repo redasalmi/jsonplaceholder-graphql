@@ -1,4 +1,6 @@
-const { fetchData, fetchById } = require('../utils/fetch');
+const { GraphQLError } = require('graphql');
+
+const { fetchData, fetchById, getPropertyLength } = require('../utils/fetch');
 const { fetchUser } = require('./users');
 
 const fetchAlbums = () => {
@@ -21,10 +23,58 @@ const fetchAlbums = () => {
 
 const fetchAlbum = (id) => {
   const album = fetchById('albums', id);
+
+  if (album === undefined) {
+    throw new GraphQLError('Album not found');
+  }
+
   const user = fetchUser(album.userId);
   album.user = user;
 
   return album;
 };
 
-module.exports = { fetchAlbums, fetchAlbum };
+const createAlbum = (title, user) => {
+  const albumId = getPropertyLength('albums') + 1;
+  const userId = getPropertyLength('users') + 1;
+
+  const newAlbum = {
+    id: albumId,
+    title,
+    user: {
+      id: userId,
+      ...user,
+    },
+  };
+
+  return newAlbum;
+};
+
+const updateAlbum = (id, title, user) => {
+  const album = fetchAlbum(id);
+
+  const updatedAlbum = {
+    ...album,
+    title,
+    user: {
+      ...album.user,
+      ...user,
+    },
+  };
+
+  return updatedAlbum;
+};
+
+const deleteAlbum = (id) => {
+  fetchAlbum(id);
+
+  return true;
+};
+
+module.exports = {
+  fetchAlbums,
+  fetchAlbum,
+  createAlbum,
+  updateAlbum,
+  deleteAlbum,
+};
