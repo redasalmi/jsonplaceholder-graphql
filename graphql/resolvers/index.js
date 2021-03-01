@@ -33,7 +33,13 @@ const {
   updateTodo,
   deleteTodo,
 } = require('../../controllers/todos');
-const { fetchUsers, fetchUser } = require('../../controllers/users');
+const {
+  fetchUsers,
+  fetchUser,
+  createUser,
+  updateUser,
+  deleteUser,
+} = require('../../controllers/users');
 
 const resolvers = {
   Query: {
@@ -77,6 +83,10 @@ const resolvers = {
     createTodo: (_, { todo }) => createTodo(todo),
     updateTodo: (_, { id, todo }) => updateTodo(id, todo),
     deleteTodo: (_, { id }) => deleteTodo(id),
+
+    createUser: (_, { user }) => createUser(user),
+    updateUser: (_, { id, user }) => updateUser(id, user),
+    deleteUser: (_, { id }) => deleteUser(id),
   },
 };
 
