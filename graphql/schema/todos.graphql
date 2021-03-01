@@ -1,4 +1,11 @@
 # import User from 'users.graphql'
+# import UserInput from 'users.graphql'
+
+input TodoInput {
+  title: String
+  completed: Boolean
+  user: UserInput
+}
 
 type Todo {
   id: Int
@@ -10,4 +17,10 @@ type Todo {
 type Query {
   todos: [Todo]
   todo(id: Int!): Todo
+}
+
+type Mutation {
+  createTodo(todo: TodoInput): Todo
+  updateTodo(id: Int!, todo: TodoInput): Todo
+  deleteTodo(id: Int!): Boolean
 }

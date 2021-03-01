@@ -26,7 +26,13 @@ const {
   updatePhoto,
   deletePhoto,
 } = require('../../controllers/photos');
-const { fetchTodos, fetchTodo } = require('../../controllers/todos');
+const {
+  fetchTodos,
+  fetchTodo,
+  createTodo,
+  updateTodo,
+  deleteTodo,
+} = require('../../controllers/todos');
 const { fetchUsers, fetchUser } = require('../../controllers/users');
 
 const resolvers = {
@@ -67,6 +73,10 @@ const resolvers = {
     createPost: (_, { post }) => createPost(post),
     updatePost: (_, { id, post }) => updatePost(id, post),
     deletePost: (_, { id }) => deletePost(id),
+
+    createTodo: (_, { todo }) => createTodo(todo),
+    updateTodo: (_, { id, todo }) => updateTodo(id, todo),
+    deleteTodo: (_, { id }) => deleteTodo(id),
   },
 };
 
