@@ -1,6 +1,6 @@
-# import 'posts.graphql'
-# import 'comments.graphql'
 # import 'albums.graphql'
+# import 'comments.graphql'
 # import 'photos.graphql'
+# import 'posts.graphql'
 # import 'todos.graphql'
 # import 'users.graphql'
