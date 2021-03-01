@@ -18,3 +18,9 @@ type Query {
   posts: [Post]
   post(id: Int!): Post
 }
+
+type Mutation {
+  createPost(post: PostInput): Post
+  updatePost(id: Int!, post: PostInput): Post
+  deletePost(id: Int!): Boolean
+}

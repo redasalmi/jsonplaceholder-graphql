@@ -1,4 +1,10 @@
-const { fetchPosts, fetchPost } = require('../../controllers/posts');
+const {
+  fetchPosts,
+  fetchPost,
+  createPost,
+  updatePost,
+  deletePost,
+} = require('../../controllers/posts');
 const {
   fetchComments,
   fetchComment,
@@ -57,6 +63,10 @@ const resolvers = {
     createPhoto: (_, { photo }) => createPhoto(photo),
     updatePhoto: (_, { id, photo }) => updatePhoto(id, photo),
     deletePhoto: (_, { id }) => deletePhoto(id),
+
+    createPost: (_, { post }) => createPost(post),
+    updatePost: (_, { id, post }) => updatePost(id, post),
+    deletePost: (_, { id }) => deletePost(id),
   },
 };
 
