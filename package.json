@@ -7,9 +7,9 @@
   "author": "redasalmi <reda.salmi.elt@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "client": "live-server public",
     "start": "node server.js",
-    "dev": "nodemon server.js",
-    "client": "live-server public"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "@graphql-tools/graphql-file-loader": "^6.2.7",
@@ -22,8 +22,7 @@
     "graphql": "^15.5.0",
     "graphql-playground-middleware-express": "^1.7.22",
     "helmet": "^4.4.1",
-    "lowdb": "^1.0.0",
-    "node-fetch": "^2.6.1"
+    "lowdb": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "^7.19.0",

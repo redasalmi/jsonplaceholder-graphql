@@ -1,19 +1,32 @@
 :root {
-  --body-bg: #0d1117;
   --navbar-bg: #161b22;
-  --orange: #ec5e0a;
+  --body-bg: #0d1117;
+  --secondary-bg: #2a2a3b;
+  --orange: #ff8906;
+  --violet: #e535ce;
   --white: #ffffff;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  outline: none;
 }
 
 body {
   color: var(--white);
   background-color: var(--body-bg);
+  font-family: 'Montserrat', sans-serif;
 }
 
 .container {
@@ -29,8 +42,13 @@ body {
 
 .navbar > .container {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+
+.navbar > .container div {
+  margin: 10px 0;
 }
 
 .navbar a {
@@ -51,7 +69,7 @@ body {
   padding-right: 10px;
 }
 
-.graphql-svg {
+.navbar .playground-link > .graphql-svg {
   width: 35px;
   height: auto;
 }
@@ -60,13 +78,77 @@ body {
   fill: var(--orange);
 }
 
-.github-svg {
-  width: 45px;
-  height: auto;
+.hero a,
+section a,
+footer a {
+  color: var(--orange);
 }
 
-.github-svg:hover > g > path {
-  fill: var(--orange);
+.hero a:visited,
+section a:visited,
+footer a:visited {
+  color: var(--orange);
+}
+
+.hero {
+  min-height: 35vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--secondary-bg);
+}
+
+.hero h1 {
+  font-size: 40px;
+  padding: 40px 0;
+}
+
+.hero h2 {
+  font-size: 20px;
+  padding: 10px 0;
+}
+
+section {
+  margin-top: 60px;
+}
+
+section > p {
+  margin: 20px 0;
+}
+
+code pre {
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  background-color: var(--navbar-bg);
+}
+
+code pre .orange-txt {
+  color: var(--orange);
+}
+
+code pre .violet-txt {
+  color: var(--violet);
+}
+
+section .resources-table {
+  margin-left: 10px;
+}
+
+section .resources-table tr td {
+  padding: 5px 10px;
+}
+
+section .resources-table tr td:first-child {
+  color: var(--orange);
+}
+
+footer {
+  margin-top: 60px;
+  padding: 20px;
+  text-align: center;
+  background-color: var(--navbar-bg);
 }
 
 @media (min-width: 576px) {
@@ -79,6 +161,14 @@ body {
   .container {
     max-width: 720px;
   }
+
+  .navbar > .container {
+    flex-direction: row;
+  }
+
+  .navbar > .container div {
+    margin: 0;
+  }
 }
 
 @media (min-width: 992px) {
@@ -90,17 +180,5 @@ body {
 @media (min-width: 1200px) {
   .container {
     max-width: 1140px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
-}
-
-@media (min-width: 1400px) {
-  .container {
-    max-width: 1320px;
   }
 }
