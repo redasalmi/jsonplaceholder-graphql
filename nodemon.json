@@ -1,3 +1,6 @@
 {
-  "ext": "js, json, mjs, graphql, gql"
+  "ext": "js, ts, json, mjs, graphql, gql",
+  "execMap": {
+    "ts": "ts-node"
+  }
 }
