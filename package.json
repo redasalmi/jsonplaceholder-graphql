@@ -28,7 +28,7 @@
     "graphql-playground-middleware-express": "^1.7.22",
     "helmet": "^4.4.1",
     "lowdb": "^1.0.0",
-    "mercurius": "^9.3.2",
+    "mercurius": "^8.12.0",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1"
   },
@@ -38,6 +38,7 @@
     "live-server": "^1.2.1",
     "nodemon": "^2.0.15",
     "ts-node": "^10.5.0",
+    "tsconfig-paths": "^3.12.0",
     "typescript": "^4.5.5"
   }
 }

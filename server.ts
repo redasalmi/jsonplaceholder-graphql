@@ -1,50 +1,48 @@
+import 'reflect-metadata';
 import path from 'path';
-import Fastify from 'fastify';
+import fastify from 'fastify';
 import fastifyCompress from 'fastify-compress';
 import fastifyHelmet from 'fastify-helmet';
 import fastifyStatic from 'fastify-static';
 import mercurius from 'mercurius';
+import { buildSchema } from 'type-graphql';
 
-const fastify = Fastify({ logger: true });
-const port = process.env.PORT || 5000;
+import { UserResolver } from '~/graphql-ts/resolvers';
 
-// middlewares
-fastify.register(fastifyCompress);
-fastify.register(fastifyHelmet, {
-  contentSecurityPolicy: false,
-  crossOriginEmbedderPolicy: false,
-  crossOriginResourcePolicy: false,
-});
+const main = async () => {
+  const app = fastify({ logger: true });
+  const port = process.env.PORT || 5000;
 
-// public folder
-fastify.register(fastifyStatic, {
-  root: path.join(__dirname, 'public'),
-});
+  try {
+    // middlewares
+    app.register(fastifyCompress);
+    app.register(fastifyHelmet, {
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: false,
+    });
 
-// graphql
-const schema = `
-  type Query {
-    add(x: Int, y: Int): Int
-  }
-`;
+    // public folder
+    app.register(fastifyStatic, {
+      root: path.join(__dirname, 'public'),
+    });
 
-const resolvers = {
-  Query: {
-    add: async (_: string, { x, y }: { x: number; y: number }) => x + y,
-  },
-};
+    // graphql
+    const schema = await buildSchema({
+      resolvers: [UserResolver],
+    });
+    app.register(mercurius, {
+      schema,
+      graphiql: true,
+    });
 
-fastify.register(mercurius, {
-  schema,
-  resolvers,
-  graphiql: true,
-});
-
-// server
-fastify.listen(port, function (err, address) {
-  if (err) {
-    fastify.log.error(err);
+    // server
+    await app.listen(port);
+    console.log(`server is running on port ${app.server.address()}`);
+  } catch (err) {
+    app.log.error(err);
     process.exit(1);
   }
-  console.log(`server is running on port ${address}`);
-});
+};
+
+main();
