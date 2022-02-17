@@ -1,16 +1,44 @@
-import { Resolver, Query, Arg } from 'type-graphql';
+import { Resolver, Query, Arg, Ctx } from 'type-graphql';
 
 import { Todo } from '~/graphql-ts/schema';
+import type { ContextInterface } from '~/types';
 
 @Resolver()
-export class AlbumResolver {
-  @Query(() => [Todo])
-  async todos() {
-    return [];
+export class TodoResolver {
+  @Query(() => [Todo], { nullable: true })
+  async todos(@Ctx() ctx: ContextInterface) {
+    return ctx.prisma.todo.findMany({
+      include: {
+        user: {
+          include: {
+            company: true,
+            address: {
+              include: {
+                geo: true,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
   @Query(() => Todo, { nullable: true })
-  async todo(@Arg('id') id: number): Promise<Todo | null> {
-    return null;
+  async todo(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+    return ctx.prisma.todo.findUnique({
+      where: { id },
+      include: {
+        user: {
+          include: {
+            company: true,
+            address: {
+              include: {
+                geo: true,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 }

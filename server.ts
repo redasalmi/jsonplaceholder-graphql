@@ -1,14 +1,13 @@
 import 'reflect-metadata';
 import path from 'path';
 import fastify from 'fastify';
+import { PrismaClient } from '@prisma/client';
 import fastifyCompress from 'fastify-compress';
 import fastifyHelmet from 'fastify-helmet';
 import fastifyStatic from 'fastify-static';
 import mercurius from 'mercurius';
-import { buildSchema } from 'type-graphql';
-import { PrismaClient } from '@prisma/client';
 
-import { UserResolver } from '~/graphql-ts/resolvers';
+import buildSchema from '~/graphql-ts/buildSchema';
 
 const main = async () => {
   const app = fastify({ logger: true });
@@ -30,9 +29,7 @@ const main = async () => {
     });
 
     // graphql
-    const schema = await buildSchema({
-      resolvers: [UserResolver],
-    });
+    const schema = await buildSchema();
     app.register(mercurius, {
       schema,
       graphiql: true,
