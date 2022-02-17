@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db/dev.db"
+}
+
+model Album {
+  id     Int     @id @default(autoincrement())
+  title  String
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int
+  Photo  Photo[]
+}
+
+model Comment {
+  id     Int    @id @default(autoincrement())
+  name   String
+  email  String
+  body   String
+  post   Post   @relation(fields: [postId], references: [id])
+  postId Int
+}
+
+model Photo {
+  id           Int    @id @default(autoincrement())
+  title        String
+  url          String
+  thumbnailUrl String
+  album        Album  @relation(fields: [albumId], references: [id])
+  albumId      Int
+}
+
+model Post {
+  id      Int       @id @default(autoincrement())
+  title   String
+  body    String
+  user    User      @relation(fields: [userId], references: [id])
+  userId  Int
+  Comment Comment[]
+}
+
+model Todo {
+  id        Int     @id @default(autoincrement())
+  title     String
+  completed Boolean
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+model GeoLocalisation {
+  id      Int       @id @default(autoincrement())
+  lat     String
+  lng     String
+  Address Address[]
+}
+
+model Address {
+  id                Int             @id @default(autoincrement())
+  street            String
+  suite             String
+  city              String
+  zipcode           String
+  geo               GeoLocalisation @relation(fields: [geoLocalisationId], references: [id])
+  User              User[]
+  geoLocalisationId Int
+}
+
+model Company {
+  id          Int    @id @default(autoincrement())
+  name        String
+  catchPhrase String
+  bs          String
+  User        User[]
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  name      String
+  username  String
+  email     String
+  address   Address @relation(fields: [addressId], references: [id])
+  phone     String
+  website   String
+  company   Company @relation(fields: [companyId], references: [id])
+  addressId Int
+  companyId Int
+  Todo      Todo[]
+  Post      Post[]
+  Album     Album[]
+}
