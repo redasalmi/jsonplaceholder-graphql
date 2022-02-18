@@ -28,7 +28,7 @@ const include = {
 
 @InputType()
 export class AlbumInput {
-  @Field()
+  @Field(() => String)
   title: string;
 
   @Field(() => UserInput)
@@ -43,7 +43,10 @@ export class AlbumResolver {
   }
 
   @Query(() => Album)
-  async album(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async album(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const album = await ctx.prisma.album.findUnique({
       where: { id },
       include,
@@ -58,7 +61,7 @@ export class AlbumResolver {
 
   @Mutation(() => Album)
   async createAlbum(
-    @Arg('album') album: AlbumInput,
+    @Arg('album', () => AlbumInput) album: AlbumInput,
     @Ctx() ctx: ContextInterface,
   ) {
     return {
@@ -69,8 +72,8 @@ export class AlbumResolver {
 
   @Mutation(() => Album)
   async updateAlbum(
-    @Arg('id') id: number,
-    @Arg('album') album: AlbumInput,
+    @Arg('id', () => Number) id: number,
+    @Arg('album', () => AlbumInput) album: AlbumInput,
     @Ctx() ctx: ContextInterface,
   ) {
     const oldAlbum = await ctx.prisma.album.findUnique({
@@ -105,7 +108,10 @@ export class AlbumResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteAlbum(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async deleteAlbum(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const album = await ctx.prisma.album.findUnique({
       where: { id },
     });

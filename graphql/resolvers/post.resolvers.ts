@@ -28,10 +28,10 @@ const include = {
 
 @InputType()
 export class PostInput {
-  @Field()
+  @Field(() => String)
   title: string;
 
-  @Field()
+  @Field(() => String)
   body: string;
 
   @Field(() => UserInput)
@@ -48,7 +48,10 @@ export class PostResolver {
   }
 
   @Query(() => Post)
-  async post(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async post(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const post = await ctx.prisma.post.findUnique({
       where: { id },
       include,
@@ -62,7 +65,10 @@ export class PostResolver {
   }
 
   @Mutation(() => Post)
-  async createPost(@Arg('post') post: PostInput, @Ctx() ctx: ContextInterface) {
+  async createPost(
+    @Arg('post', () => PostInput) post: PostInput,
+    @Ctx() ctx: ContextInterface,
+  ) {
     return {
       id: (await ctx.prisma.post.count()) + 1,
       ...post,
@@ -71,8 +77,8 @@ export class PostResolver {
 
   @Mutation(() => Post)
   async updatePost(
-    @Arg('id') id: number,
-    @Arg('post') post: PostInput,
+    @Arg('id', () => Number) id: number,
+    @Arg('post', () => PostInput) post: PostInput,
     @Ctx() ctx: ContextInterface,
   ) {
     const oldPost = await ctx.prisma.post.findUnique({
@@ -107,7 +113,10 @@ export class PostResolver {
   }
 
   @Mutation(() => Boolean)
-  async deletePost(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async deletePost(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const post = await ctx.prisma.post.findUnique({
       where: { id },
     });

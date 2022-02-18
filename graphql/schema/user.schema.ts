@@ -2,40 +2,40 @@ import { Field, ObjectType, ID } from 'type-graphql';
 
 @ObjectType()
 class GeoLocalisation {
-  @Field()
+  @Field(() => String)
   lat: String;
 
-  @Field()
+  @Field(() => String)
   lng: String;
 }
 
 @ObjectType()
 class Address {
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   street?: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   suite?: string;
 
-  @Field()
+  @Field(() => String)
   city: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   zipcode?: string;
 
-  @Field({ nullable: true })
+  @Field(() => GeoLocalisation, { nullable: true })
   geo?: GeoLocalisation;
 }
 
 @ObjectType()
 class Company {
-  @Field()
+  @Field(() => String)
   name: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   catchPhrase?: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   bs?: string;
 }
 
@@ -44,24 +44,24 @@ export class User {
   @Field(() => ID)
   id: number;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   name?: string;
 
-  @Field()
+  @Field(() => String)
   username: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   email?: string;
 
-  @Field({ nullable: true })
+  @Field(() => Address, { nullable: true })
   address?: Address;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   phone?: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   website?: string;
 
-  @Field({ nullable: true })
+  @Field(() => Company, { nullable: true })
   company?: Company;
 }

@@ -7,10 +7,10 @@ export class Todo {
   @Field(() => ID)
   id: number;
 
-  @Field()
+  @Field(() => String)
   title: string;
 
-  @Field()
+  @Field(() => Boolean)
   completed: boolean;
 
   @Field(() => User)

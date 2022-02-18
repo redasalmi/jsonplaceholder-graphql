@@ -23,64 +23,64 @@ const include = {
 
 @InputType()
 class GeoLocalisationInput {
-  @Field()
+  @Field(() => String)
   lat: string;
 
-  @Field()
+  @Field(() => String)
   lng: string;
 }
 
 @InputType()
 class AddressInput {
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   street?: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   suite?: string;
 
-  @Field()
+  @Field(() => String)
   city: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   zipcode?: string;
 
-  @Field({ nullable: true })
+  @Field(() => GeoLocalisationInput, { nullable: true })
   geo?: GeoLocalisationInput;
 }
 
 @InputType()
 class CompanyInput {
-  @Field()
+  @Field(() => String)
   name: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   catchPhrase?: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   bs?: string;
 }
 
 @InputType()
 export class UserInput {
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   name?: string;
 
-  @Field()
+  @Field(() => String)
   username: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   email?: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   address?: AddressInput;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   phone?: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   website?: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   company?: CompanyInput;
 }
 
@@ -94,7 +94,10 @@ export class UserResolver {
   }
 
   @Query(() => User)
-  async user(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async user(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const user = await ctx.prisma.user.findUnique({
       where: { id },
       include,
@@ -108,7 +111,10 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async createUser(@Arg('user') user: UserInput, @Ctx() ctx: ContextInterface) {
+  async createUser(
+    @Arg('user', () => UserInput) user: UserInput,
+    @Ctx() ctx: ContextInterface,
+  ) {
     return {
       id: (await ctx.prisma.user.count()) + 1,
       ...user,
@@ -117,8 +123,8 @@ export class UserResolver {
 
   @Mutation(() => User)
   async updateUser(
-    @Arg('id') id: number,
-    @Arg('user') user: UserInput,
+    @Arg('id', () => Number) id: number,
+    @Arg('user', () => UserInput) user: UserInput,
     @Ctx() ctx: ContextInterface,
   ) {
     const oldUser = await ctx.prisma.user.findUnique({
@@ -149,7 +155,10 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteUser(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async deleteUser(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const user = await ctx.prisma.user.findUnique({
       where: { id },
     });

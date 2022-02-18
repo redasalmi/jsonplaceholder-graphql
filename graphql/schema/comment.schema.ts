@@ -7,13 +7,13 @@ export class Comment {
   @Field(() => ID)
   id: number;
 
-  @Field()
+  @Field(() => String)
   name: string;
 
-  @Field()
+  @Field(() => String)
   email: string;
 
-  @Field()
+  @Field(() => String)
   body: string;
 
   @Field(() => Post)

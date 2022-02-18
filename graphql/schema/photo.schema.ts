@@ -7,13 +7,13 @@ export class Photo {
   @Field(() => ID)
   id: number;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   title: string;
 
-  @Field()
+  @Field(() => String)
   url: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   thumbnailUrl: string;
 
   @Field(() => Album)

@@ -28,10 +28,10 @@ const include = {
 
 @InputType()
 class TodoInput {
-  @Field()
+  @Field(() => String)
   title: string;
 
-  @Field()
+  @Field(() => Boolean)
   completed: boolean;
 
   @Field(() => UserInput)
@@ -48,7 +48,10 @@ export class TodoResolver {
   }
 
   @Query(() => Todo)
-  async todo(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async todo(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const todo = await ctx.prisma.todo.findUnique({
       where: { id },
       include,
@@ -62,7 +65,10 @@ export class TodoResolver {
   }
 
   @Mutation(() => Todo)
-  async createTodo(@Arg('todo') todo: TodoInput, @Ctx() ctx: ContextInterface) {
+  async createTodo(
+    @Arg('todo', () => TodoInput) todo: TodoInput,
+    @Ctx() ctx: ContextInterface,
+  ) {
     return {
       id: (await ctx.prisma.todo.count()) + 1,
       ...todo,
@@ -71,8 +77,8 @@ export class TodoResolver {
 
   @Mutation(() => Todo)
   async updateTodo(
-    @Arg('id') id: number,
-    @Arg('todo') todo: TodoInput,
+    @Arg('id', () => Number) id: number,
+    @Arg('todo', () => TodoInput) todo: TodoInput,
     @Ctx() ctx: ContextInterface,
   ) {
     const oldTodo = await ctx.prisma.todo.findUnique({
@@ -107,7 +113,10 @@ export class TodoResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteTodo(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async deleteTodo(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const todo = await ctx.prisma.todo.findUnique({
       where: { id },
     });

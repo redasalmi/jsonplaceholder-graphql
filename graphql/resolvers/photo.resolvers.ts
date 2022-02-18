@@ -32,13 +32,13 @@ const include = {
 
 @InputType()
 class PhotoInput {
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   title?: string;
 
-  @Field()
+  @Field(() => String)
   url: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   thumbnailUrl?: string;
 
   @Field(() => AlbumInput)
@@ -55,7 +55,10 @@ export class PhotoResolver {
   }
 
   @Query(() => Photo)
-  async photo(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async photo(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const photo = await ctx.prisma.photo.findUnique({
       where: { id },
       include,
@@ -70,7 +73,7 @@ export class PhotoResolver {
 
   @Mutation(() => Photo)
   async createPhoto(
-    @Arg('photo') photo: PhotoInput,
+    @Arg('photo', () => PhotoInput) photo: PhotoInput,
     @Ctx() ctx: ContextInterface,
   ) {
     return {
@@ -81,8 +84,8 @@ export class PhotoResolver {
 
   @Mutation(() => Photo)
   async updatePhoto(
-    @Arg('id') id: number,
-    @Arg('photo') photo: PhotoInput,
+    @Arg('id', () => Number) id: number,
+    @Arg('photo', () => PhotoInput) photo: PhotoInput,
     @Ctx() ctx: ContextInterface,
   ) {
     const oldPhoto = await ctx.prisma.photo.findUnique({
@@ -121,7 +124,10 @@ export class PhotoResolver {
   }
 
   @Mutation(() => Boolean)
-  async deletePhoto(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async deletePhoto(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const photo = await ctx.prisma.photo.findUnique({
       where: { id },
     });

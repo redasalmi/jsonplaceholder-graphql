@@ -32,13 +32,13 @@ const include = {
 
 @InputType()
 class CommentInput {
-  @Field()
+  @Field(() => String)
   name: string;
 
-  @Field()
+  @Field(() => String)
   email: string;
 
-  @Field()
+  @Field(() => String)
   body: string;
 
   @Field(() => PostInput)
@@ -55,7 +55,10 @@ export class CommentResolver {
   }
 
   @Query(() => Comment)
-  async comment(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async comment(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const comment = await ctx.prisma.comment.findUnique({
       where: { id },
       include,
@@ -70,7 +73,7 @@ export class CommentResolver {
 
   @Mutation(() => Comment)
   async createComment(
-    @Arg('comment') comment: CommentInput,
+    @Arg('comment', () => CommentInput) comment: CommentInput,
     @Ctx() ctx: ContextInterface,
   ) {
     return {
@@ -81,8 +84,8 @@ export class CommentResolver {
 
   @Mutation(() => Comment)
   async updateComment(
-    @Arg('id') id: number,
-    @Arg('comment') comment: CommentInput,
+    @Arg('id', () => Number) id: number,
+    @Arg('comment', () => CommentInput) comment: CommentInput,
     @Ctx() ctx: ContextInterface,
   ) {
     const oldComment = await ctx.prisma.comment.findUnique({
@@ -121,7 +124,10 @@ export class CommentResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteComment(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
+  async deleteComment(
+    @Arg('id', () => Number) id: number,
+    @Ctx() ctx: ContextInterface,
+  ) {
     const comment = await ctx.prisma.comment.findUnique({
       where: { id },
     });

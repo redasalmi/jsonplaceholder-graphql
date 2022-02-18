@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import path from 'path';
+import process from 'process';
 import fastify from 'fastify';
 import { PrismaClient } from '@prisma/client';
 import fastifyCompress from 'fastify-compress';
@@ -25,7 +26,7 @@ const main = async () => {
 
     // public folder
     app.register(fastifyStatic, {
-      root: path.join(__dirname, 'public'),
+      root: path.join(process.cwd(), 'public'),
     });
     app.register(fastifyStatic, {
       root: getDistDirectory(),

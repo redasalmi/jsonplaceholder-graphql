@@ -7,10 +7,10 @@ export class Post {
   @Field(() => ID)
   id: number;
 
-  @Field()
+  @Field(() => String)
   title: string;
 
-  @Field()
+  @Field(() => String)
   body: string;
 
   @Field(() => User)
