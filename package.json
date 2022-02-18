@@ -7,7 +7,6 @@
   "author": "redasalmi <reda.salmi.elt@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "client": "live-server public",
     "dev": "nodemon server.ts",
     "start": "node ./dist/server.js",
     "prebuild": "npm run clean",
@@ -35,7 +34,6 @@
     "@types/node": "^17.0.18",
     "esbuild": "^0.14.22",
     "eslint": "^8.9.0",
-    "live-server": "^1.2.1",
     "nodemon": "^2.0.15",
     "rimraf": "^3.0.2",
     "ts-node": "^10.5.0",
