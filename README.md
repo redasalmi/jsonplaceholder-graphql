@@ -48,10 +48,10 @@ This is a GraphQL version of the {JSON} Placeholder Rest API found here: [jsonpl
 
 ### Built With
 
-- [Express JS](https://expressjs.com/)
-- [express-graphql](https://github.com/graphql/express-graphql)
-- [graphql-tools](https://www.graphql-tools.com/)
-- [graphql-playground](https://github.com/graphql/graphql-playground/)
+- [Fastify](https://www.fastify.io/)
+- [Mercurius](https://mercurius.dev/)
+- [TypeGraphQL](https://typegraphql.com/)
+- [Altair GraphQL Client](https://altair.sirmuel.design/)
 
 ## Getting Started
 
@@ -60,7 +60,7 @@ To get a local copy up and running follow these instructions.
 ### Prerequisites
 
 - node
-- yarn
+- npm
 
 ### Installation
 
@@ -70,18 +70,19 @@ To get a local copy up and running follow these instructions.
    ```
 2. Install project dependencies
    ```sh
-   yarn install
+   npm install
    ```
 
 ## Usage
 
 - To start the server in development mode
   ```sh
-  yarn dev
+  npm run dev
   ```
 - To start the server in production mode
   ```sh
-  yarn start
+  npm run build
+  npm run start
   ```
 
 ## License
