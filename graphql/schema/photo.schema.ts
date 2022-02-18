@@ -1,6 +1,6 @@
 import { Field, ObjectType, ID } from 'type-graphql';
 
-import { Album } from '~/graphql-ts/schema';
+import { Album } from '~/graphql/schema';
 
 @ObjectType()
 export class Photo {

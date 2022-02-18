@@ -9,8 +9,8 @@ import {
   Field,
 } from 'type-graphql';
 
-import { Photo } from '~/graphql-ts/schema';
-import { AlbumInput } from '~/graphql-ts/resolvers';
+import { Photo } from '~/graphql/schema';
+import { AlbumInput } from '~/graphql/resolvers';
 import type { ContextInterface } from '~/types';
 
 const include = {

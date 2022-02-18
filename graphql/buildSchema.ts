@@ -7,7 +7,7 @@ import {
   PostResolver,
   TodoResolver,
   UserResolver,
-} from '~/graphql-ts/resolvers';
+} from '~/graphql/resolvers';
 
 export default async function buildSchema() {
   const schema = await buildGraphQLSchema({

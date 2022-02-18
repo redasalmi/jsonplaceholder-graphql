@@ -1,18 +1,21 @@
 import { Field, ObjectType, ID } from 'type-graphql';
 
-import { User } from '~/graphql-ts/schema';
+import { Post } from '~/graphql/schema';
 
 @ObjectType()
-export class Post {
+export class Comment {
   @Field(() => ID)
   id: number;
 
   @Field()
-  title: string;
+  name: string;
+
+  @Field()
+  email: string;
 
   @Field()
   body: string;
 
-  @Field(() => User)
-  user: User;
+  @Field(() => Post)
+  post: Post;
 }

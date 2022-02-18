@@ -1,6 +1,6 @@
 import { Field, ObjectType, ID } from 'type-graphql';
 
-import { User } from '~/graphql-ts/schema';
+import { User } from '~/graphql/schema';
 
 @ObjectType()
 export class Todo {

@@ -9,8 +9,8 @@ import {
   Field,
 } from 'type-graphql';
 
-import { Post } from '~/graphql-ts/schema';
-import { UserInput } from '~/graphql-ts/resolvers';
+import { Post } from '~/graphql/schema';
+import { UserInput } from '~/graphql/resolvers';
 import type { ContextInterface } from '~/types';
 
 const include = {

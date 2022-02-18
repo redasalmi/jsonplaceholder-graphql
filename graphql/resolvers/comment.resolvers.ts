@@ -9,8 +9,8 @@ import {
   Mutation,
 } from 'type-graphql';
 
-import { Comment } from '~/graphql-ts/schema';
-import { PostInput } from '~/graphql-ts/resolvers';
+import { Comment } from '~/graphql/schema';
+import { PostInput } from '~/graphql/resolvers';
 import type { ContextInterface } from '~/types';
 
 const include = {

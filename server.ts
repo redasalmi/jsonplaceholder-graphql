@@ -7,7 +7,7 @@ import fastifyHelmet from 'fastify-helmet';
 import fastifyStatic from 'fastify-static';
 import mercurius from 'mercurius';
 
-import buildSchema from '~/graphql-ts/buildSchema';
+import buildSchema from '~/graphql/buildSchema';
 
 const main = async () => {
   const app = fastify({ logger: true });

@@ -9,7 +9,7 @@ import {
   Mutation,
 } from 'type-graphql';
 
-import { User } from '~/graphql-ts/schema';
+import { User } from '~/graphql/schema';
 import type { ContextInterface } from '~/types';
 
 const include = {
