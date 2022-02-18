@@ -11,20 +11,20 @@ class GeoLocalisation {
 
 @ObjectType()
 class Address {
-  @Field()
-  street: string;
+  @Field({ nullable: true })
+  street?: string;
 
-  @Field()
-  suite: string;
+  @Field({ nullable: true })
+  suite?: string;
 
   @Field()
   city: string;
 
-  @Field()
-  zipcode: string;
+  @Field({ nullable: true })
+  zipcode?: string;
 
-  @Field(() => GeoLocalisation)
-  geo: GeoLocalisation;
+  @Field({ nullable: true })
+  geo?: GeoLocalisation;
 }
 
 @ObjectType()
@@ -32,11 +32,11 @@ class Company {
   @Field()
   name: string;
 
-  @Field()
-  catchPhrase: string;
+  @Field({ nullable: true })
+  catchPhrase?: string;
 
-  @Field()
-  bs: string;
+  @Field({ nullable: true })
+  bs?: string;
 }
 
 @ObjectType()
@@ -44,24 +44,24 @@ export class User {
   @Field(() => ID)
   id: number;
 
-  @Field()
-  name: string;
+  @Field({ nullable: true })
+  name?: string;
 
   @Field()
   username: string;
 
-  @Field()
-  email: string;
+  @Field({ nullable: true })
+  email?: string;
 
-  @Field(() => Address)
-  address: Address;
+  @Field({ nullable: true })
+  address?: Address;
 
-  @Field()
-  phone: string;
+  @Field({ nullable: true })
+  phone?: string;
 
-  @Field()
-  website: string;
+  @Field({ nullable: true })
+  website?: string;
 
-  @Field(() => Company)
-  company: Company;
+  @Field({ nullable: true })
+  company?: Company;
 }

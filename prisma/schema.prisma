@@ -28,11 +28,11 @@ model Comment {
 }
 
 model Photo {
-  id           Int    @id @default(autoincrement())
-  title        String
+  id           Int     @id @default(autoincrement())
+  title        String?
   url          String
-  thumbnailUrl String
-  album        Album  @relation(fields: [albumId], references: [id])
+  thumbnailUrl String?
+  album        Album   @relation(fields: [albumId], references: [id])
   albumId      Int
 }
 
@@ -61,35 +61,35 @@ model GeoLocalisation {
 }
 
 model Address {
-  id                Int             @id @default(autoincrement())
-  street            String
-  suite             String
+  id                Int              @id @default(autoincrement())
+  street            String?
+  suite             String?
   city              String
-  zipcode           String
-  geo               GeoLocalisation @relation(fields: [geoLocalisationId], references: [id])
+  zipcode           String?
+  geo               GeoLocalisation? @relation(fields: [geoLocalisationId], references: [id])
   User              User[]
-  geoLocalisationId Int
+  geoLocalisationId Int?
 }
 
 model Company {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
-  catchPhrase String
-  bs          String
+  catchPhrase String?
+  bs          String?
   User        User[]
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  name      String
+  id        Int      @id @default(autoincrement())
+  name      String?
   username  String
-  email     String
-  address   Address @relation(fields: [addressId], references: [id])
-  phone     String
-  website   String
-  company   Company @relation(fields: [companyId], references: [id])
-  addressId Int
-  companyId Int
+  email     String?
+  address   Address? @relation(fields: [addressId], references: [id])
+  phone     String?
+  website   String?
+  company   Company? @relation(fields: [companyId], references: [id])
+  addressId Int?
+  companyId Int?
   Todo      Todo[]
   Post      Post[]
   Album     Album[]
