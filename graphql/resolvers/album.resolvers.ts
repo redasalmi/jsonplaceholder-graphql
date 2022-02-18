@@ -42,12 +42,18 @@ export class AlbumResolver {
     return ctx.prisma.album.findMany({ include });
   }
 
-  @Query(() => Album, { nullable: true })
+  @Query(() => Album)
   async album(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
-    return ctx.prisma.album.findUnique({
+    const album = await ctx.prisma.album.findUnique({
       where: { id },
       include,
     });
+
+    if (!album) {
+      throw new GraphQLError('Album not found');
+    }
+
+    return album;
   }
 
   @Mutation(() => Album)

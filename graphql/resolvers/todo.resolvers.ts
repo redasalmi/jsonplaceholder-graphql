@@ -47,12 +47,18 @@ export class TodoResolver {
     });
   }
 
-  @Query(() => Todo, { nullable: true })
+  @Query(() => Todo)
   async todo(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
-    return ctx.prisma.todo.findUnique({
+    const todo = await ctx.prisma.todo.findUnique({
       where: { id },
       include,
     });
+
+    if (!todo) {
+      throw new GraphQLError('Todo not found');
+    }
+
+    return todo;
   }
 
   @Mutation(() => Todo)

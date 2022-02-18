@@ -54,12 +54,18 @@ export class CommentResolver {
     });
   }
 
-  @Query(() => Comment, { nullable: true })
+  @Query(() => Comment)
   async comment(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
-    return ctx.prisma.comment.findUnique({
+    const comment = await ctx.prisma.comment.findUnique({
       where: { id },
       include,
     });
+
+    if (!comment) {
+      throw new GraphQLError('Comment not found');
+    }
+
+    return comment;
   }
 
   @Mutation(() => Comment)

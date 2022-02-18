@@ -54,12 +54,18 @@ export class PhotoResolver {
     });
   }
 
-  @Query(() => Photo, { nullable: true })
+  @Query(() => Photo)
   async photo(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
-    return ctx.prisma.photo.findUnique({
+    const photo = await ctx.prisma.photo.findUnique({
       where: { id },
       include,
     });
+
+    if (!photo) {
+      throw new GraphQLError('Photo not found');
+    }
+
+    return photo;
   }
 
   @Mutation(() => Photo)

@@ -93,12 +93,18 @@ export class UserResolver {
     });
   }
 
-  @Query(() => User, { nullable: true })
+  @Query(() => User)
   async user(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
-    return ctx.prisma.user.findUnique({
+    const user = await ctx.prisma.user.findUnique({
       where: { id },
       include,
     });
+
+    if (!user) {
+      throw new GraphQLError('User not found');
+    }
+
+    return user;
   }
 
   @Mutation(() => User)

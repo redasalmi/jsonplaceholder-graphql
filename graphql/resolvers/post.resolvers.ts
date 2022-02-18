@@ -47,12 +47,18 @@ export class PostResolver {
     });
   }
 
-  @Query(() => Post, { nullable: true })
+  @Query(() => Post)
   async post(@Arg('id') id: number, @Ctx() ctx: ContextInterface) {
-    return ctx.prisma.post.findUnique({
+    const post = await ctx.prisma.post.findUnique({
       where: { id },
       include,
     });
+
+    if (!post) {
+      throw new GraphQLError('Post not found');
+    }
+
+    return post;
   }
 
   @Mutation(() => Post)
