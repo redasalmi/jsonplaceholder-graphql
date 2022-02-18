@@ -6,8 +6,10 @@ import fastifyCompress from 'fastify-compress';
 import fastifyHelmet from 'fastify-helmet';
 import fastifyStatic from 'fastify-static';
 import mercurius from 'mercurius';
+import { getDistDirectory } from 'altair-static';
 
 import buildSchema from '~/graphql/buildSchema';
+import altairRoute from '~/routes/altair';
 
 const main = async () => {
   const app = fastify({ logger: true });
@@ -19,28 +21,36 @@ const main = async () => {
     app.register(fastifyCompress);
     app.register(fastifyHelmet, {
       contentSecurityPolicy: false,
-      crossOriginEmbedderPolicy: false,
-      crossOriginResourcePolicy: false,
     });
 
     // public folder
     app.register(fastifyStatic, {
       root: path.join(__dirname, 'public'),
     });
+    app.register(fastifyStatic, {
+      root: getDistDirectory(),
+      prefix: '/altair/',
+      decorateReply: false,
+    });
 
     // graphql
     const schema = await buildSchema();
     app.register(mercurius, {
       schema,
-      graphiql: true,
+      graphiql: false,
+      ide: false,
+      path: '/graphql',
       context: () => {
         return { prisma };
       },
     });
 
+    // altair route
+    app.register(altairRoute);
+
     // server
     await app.listen(port);
-    console.log(`server is running on port ${app.server.address()}`);
+    console.log('server is running 🚀');
   } catch (err) {
     app.log.error(err);
     await prisma.$disconnect();
