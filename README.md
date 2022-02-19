@@ -44,7 +44,7 @@
 
 ## About The Project
 
-This is a GraphQL version of the {JSON} Placeholder Rest API found here: [jsonplaceholder-api](https://jsonplaceholder.typicode.com/). the app aims to reproduce the same API in GarphQL, it can be found online at this address: [jsonplaceholder-graphql](https://jsonplaceholdergraphql.herokuapp.com/playground).
+This is a GraphQL version of the {JSON} Placeholder Rest API found here: [jsonplaceholder-api](https://jsonplaceholder.typicode.com/). the app aims to reproduce the same API in GarphQL, it can be found online at this address: [jsonplaceholder-graphql](https://jsonplaceholder-graphql.onrender.com/).
 
 ### Built With
 
@@ -52,6 +52,7 @@ This is a GraphQL version of the {JSON} Placeholder Rest API found here: [jsonpl
 - [Mercurius](https://mercurius.dev/)
 - [TypeGraphQL](https://typegraphql.com/)
 - [Altair GraphQL Client](https://altair.sirmuel.design/)
+- [prisma](https://www.prisma.io/)
 
 ## Getting Started
 
