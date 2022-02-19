@@ -5,4 +5,5 @@ require('esbuild').build({
   target: ['node16.14'],
   external: ['./node_modules/*'],
   outdir: './dist',
+  minify: true,
 });
