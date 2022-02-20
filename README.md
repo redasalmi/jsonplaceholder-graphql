@@ -56,8 +56,6 @@ This is a GraphQL version of the {JSON} Placeholder Rest API found here: [jsonpl
 
 ## Getting Started
 
-To get a local copy up and running follow these instructions.
-
 ### Prerequisites
 
 - node
@@ -66,25 +64,54 @@ To get a local copy up and running follow these instructions.
 ### Installation
 
 1. Clone the repository
-   ```sh
-   git clone https://github.com/redasalmi/jsonplaceholder-graphql.git
-   ```
+
+```sh
+  git clone https://github.com/redasalmi/jsonplaceholder-graphql.git
+```
+
 2. Install project dependencies
-   ```sh
-   npm install
-   ```
+
+```sh
+  npm install
+```
+
+3. Create `.env` file in the roor directory and fill the `DATABASE_URL` env variable
+
+```sh
+  DATABASE_URL="postgresql://username:password@localhost:5432/dbname"
+```
+
+4. Prepare a PostgreSQL database (optionnaly using docker)
+
+```sh
+  docker-compose up -d                # to start the database container if using docker
+  npx prisma generate                 # to load env variables into prisma
+  npx prisma migrate deploy           # to apply migrations
+  npx prisma db seed                  # to fill database data
+```
 
 ## Usage
 
-- To start the server in development mode
-  ```sh
+To start the server in development mode
+
+```sh
+  docker-compose up -d                # if using docker
   npm run dev
-  ```
-- To start the server in production mode
-  ```sh
+```
+
+To start the server in production mode
+
+```sh
+  docker-compose up -d                # if using docker
   npm run build
   npm run start
-  ```
+```
+
+To check database data
+
+```sh
+  npm run studio
+```
 
 ## License
 

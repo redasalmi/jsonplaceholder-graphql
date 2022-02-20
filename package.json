@@ -11,7 +11,8 @@
     "start": "node ./dist/server.js",
     "prebuild": "npm run clean",
     "build": "node bundle.js",
-    "clean": "rimraf ./dist"
+    "clean": "rimraf ./dist",
+    "studio": "prisma studio"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
