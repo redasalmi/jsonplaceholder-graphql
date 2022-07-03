@@ -50,7 +50,6 @@ This is a GraphQL version of the {JSON} Placeholder Rest API found here: [jsonpl
 
 - [Fastify](https://www.fastify.io/)
 - [Mercurius](https://mercurius.dev/)
-- [TypeGraphQL](https://typegraphql.com/)
 - [Altair GraphQL Client](https://altair.sirmuel.design/)
 - [prisma](https://www.prisma.io/)
 
