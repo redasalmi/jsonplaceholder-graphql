@@ -75,34 +75,17 @@ This is a GraphQL version of the {JSON} Placeholder Rest API found here: [jsonpl
   npm install
 ```
 
-3. Create `.env` file in the roor directory and fill the `DATABASE_URL` env variable
-
-```sh
-  DATABASE_URL="postgresql://username:password@localhost:5432/dbname"
-```
-
-4. Prepare a PostgreSQL database (optionnaly using docker)
-
-```sh
-  docker-compose up -d                # to start the database container if using docker
-  npx prisma generate                 # to load env variables into prisma
-  npx prisma migrate deploy           # to apply migrations
-  npx prisma db seed                  # to fill database data
-```
-
 ## Usage
 
 To start the server in development mode
 
 ```sh
-  docker-compose up -d                # if using docker
   npm run dev
 ```
 
 To start the server in production mode
 
 ```sh
-  docker-compose up -d                # if using docker
   npm run build
   npm run start
 ```
