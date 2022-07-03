@@ -1,15 +1,16 @@
-import { Field, ObjectType, ID } from 'type-graphql';
+import { gql } from 'mercurius-codegen';
 
-import { User } from '~/graphql/schema';
+export const AlbumType = gql`
+  type Album {
+    id: Int!
+    title: String!
+    user: User!
+  }
+`;
 
-@ObjectType()
-export class Album {
-  @Field(() => ID)
-  id: number;
-
-  @Field(() => String)
-  title: string;
-
-  @Field(() => User)
-  user: User;
-}
+export const AlbumInput = gql`
+  input AlbumInput {
+    title: String!
+    user: UserInput!
+  }
+`;

@@ -1,67 +1,76 @@
-import { Field, ObjectType, ID } from 'type-graphql';
+import { gql } from 'mercurius-codegen';
 
-@ObjectType()
-class GeoLocalisation {
-  @Field(() => String)
-  lat: String;
+export const GeoLocalisationType = gql`
+  type GeoLocalisation {
+    lat: String!
+    lng: String!
+  }
+`;
 
-  @Field(() => String)
-  lng: String;
-}
+export const AddressType = gql`
+  type Address {
+    street: String
+    suite: String
+    city: String!
+    zipcode: String
+    geo: GeoLocalisation
+  }
+`;
 
-@ObjectType()
-class Address {
-  @Field(() => String, { nullable: true })
-  street?: string;
+export const CompanyType = gql`
+  type Company {
+    name: String!
+    catchPhrase: String
+    bs: String
+  }
+`;
 
-  @Field(() => String, { nullable: true })
-  suite?: string;
+export const UserType = gql`
+  type User {
+    id: Int!
+    name: String
+    username: String!
+    email: String
+    address: Address
+    phone: String
+    website: String
+    company: Company
+  }
+`;
 
-  @Field(() => String)
-  city: string;
+export const GeoLocalisationInput = gql`
+  input GeoLocalisationInput {
+    lat: String!
+    lng: String!
+  }
+`;
 
-  @Field(() => String, { nullable: true })
-  zipcode?: string;
+export const AddressInput = gql`
+  input AddressInput {
+    street: String
+    suite: String
+    city: String!
+    zipcode: String
+    geo: GeoLocalisationInput
+  }
+`;
 
-  @Field(() => GeoLocalisation, { nullable: true })
-  geo?: GeoLocalisation;
-}
+export const CompanyInput = gql`
+  input CompanyInput {
+    name: String!
+    catchPhrase: String
+    bs: String
+  }
+`;
 
-@ObjectType()
-class Company {
-  @Field(() => String)
-  name: string;
-
-  @Field(() => String, { nullable: true })
-  catchPhrase?: string;
-
-  @Field(() => String, { nullable: true })
-  bs?: string;
-}
-
-@ObjectType()
-export class User {
-  @Field(() => ID)
-  id: number;
-
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String)
-  username: string;
-
-  @Field(() => String, { nullable: true })
-  email?: string;
-
-  @Field(() => Address, { nullable: true })
-  address?: Address;
-
-  @Field(() => String, { nullable: true })
-  phone?: string;
-
-  @Field(() => String, { nullable: true })
-  website?: string;
-
-  @Field(() => Company, { nullable: true })
-  company?: Company;
-}
+export const UserInput = gql`
+  input UserInput {
+    name: String
+    username: String!
+    email: String
+    address: AddressInput
+    phone: String
+    website: String
+    company: CompanyInput
+  }
+`;

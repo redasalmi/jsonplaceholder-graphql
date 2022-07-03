@@ -1,18 +1,18 @@
-import { Field, ObjectType, ID } from 'type-graphql';
+import { gql } from 'mercurius-codegen';
 
-import { User } from '~/graphql/schema';
+export const PostType = gql`
+  type Post {
+    id: Int!
+    title: String!
+    body: String!
+    user: User!
+  }
+`;
 
-@ObjectType()
-export class Post {
-  @Field(() => ID)
-  id: number;
-
-  @Field(() => String)
-  title: string;
-
-  @Field(() => String)
-  body: string;
-
-  @Field(() => User)
-  user: User;
-}
+export const PostInput = gql`
+  input PostInput {
+    title: String!
+    body: String!
+    user: UserInput!
+  }
+`;

@@ -1,21 +1,20 @@
-import { Field, ObjectType, ID } from 'type-graphql';
+import { gql } from 'mercurius-codegen';
 
-import { Post } from '~/graphql/schema';
+export const CommentType = gql`
+  type Comment {
+    id: Int!
+    name: String!
+    email: String!
+    body: String!
+    post: Post!
+  }
+`;
 
-@ObjectType()
-export class Comment {
-  @Field(() => ID)
-  id: number;
-
-  @Field(() => String)
-  name: string;
-
-  @Field(() => String)
-  email: string;
-
-  @Field(() => String)
-  body: string;
-
-  @Field(() => Post)
-  post: Post;
-}
+export const CommentInput = gql`
+  input CommentInput {
+    name: String!
+    email: String!
+    body: String!
+    post: PostInput!
+  }
+`;

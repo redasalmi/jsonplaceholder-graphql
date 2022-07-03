@@ -1,17 +1,14 @@
 import { GraphQLError } from 'graphql';
-import {
-  Resolver,
-  Query,
-  Arg,
-  Ctx,
-  Mutation,
-  InputType,
-  Field,
-} from 'type-graphql';
 
-import { Photo } from '~/graphql/schema';
-import { AlbumInput } from '~/graphql/resolvers';
-import type { ContextInterface } from '~/types';
+import type { MercuriusContext } from 'mercurius';
+import type {
+  MutationcreatePhotoArgs,
+  MutationdeletePhotoArgs,
+  MutationupdatePhotoArgs,
+  Photo,
+  QueryphotoArgs,
+  RequireFields,
+} from '~/graphql/generated';
 
 const include = {
   album: {
@@ -30,112 +27,108 @@ const include = {
   },
 };
 
-@InputType()
-class PhotoInput {
-  @Field(() => String, { nullable: true })
-  title?: string;
+export async function photos(
+  _: {},
+  __: {},
+  { prisma }: MercuriusContext,
+): Promise<Photo[]> {
+  const photos = await prisma.photo.findMany({ include });
 
-  @Field(() => String)
-  url: string;
+  if (!photos) {
+    throw new GraphQLError('Photos not found');
+  }
 
-  @Field(() => String, { nullable: true })
-  thumbnailUrl?: string;
-
-  @Field(() => AlbumInput)
-  album: AlbumInput;
+  return photos;
 }
 
-@Resolver()
-export class PhotoResolver {
-  @Query(() => [Photo], { nullable: true })
-  async photos(@Ctx() ctx: ContextInterface) {
-    return ctx.prisma.photo.findMany({
-      include,
-    });
+export async function photo(
+  _: {},
+  { id }: RequireFields<QueryphotoArgs, 'id'>,
+  { prisma }: MercuriusContext,
+): Promise<Photo> {
+  const photo = await prisma.photo.findUnique({
+    where: { id },
+    include,
+  });
+
+  if (!photo) {
+    throw new GraphQLError('Photo not found');
   }
 
-  @Query(() => Photo)
-  async photo(
-    @Arg('id', () => Number) id: number,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const photo = await ctx.prisma.photo.findUnique({
-      where: { id },
-      include,
-    });
+  return photo;
+}
 
-    if (!photo) {
-      throw new GraphQLError('Photo not found');
-    }
+export async function createPhoto(
+  _: {},
+  { photo }: RequireFields<MutationcreatePhotoArgs, 'photo'>,
+  { prisma }: MercuriusContext,
+): Promise<Photo> {
+  return {
+    id: (await prisma.photo.count()) + 1,
+    ...photo,
+    album: {
+      id: (await prisma.album.count()) + 1,
+      ...photo.album,
+      user: {
+        id: (await prisma.user.count()) + 1,
+        ...photo.album.user,
+      },
+    },
+  };
+}
 
-    return photo;
+export async function updatePhoto(
+  _: {},
+  { id, photo }: RequireFields<MutationupdatePhotoArgs, 'id' | 'photo'>,
+  { prisma }: MercuriusContext,
+) {
+  const oldPhoto = await prisma.photo.findUnique({
+    where: { id },
+    include,
+  });
+
+  if (!oldPhoto) {
+    throw new GraphQLError('Photo not found');
   }
 
-  @Mutation(() => Photo)
-  async createPhoto(
-    @Arg('photo', () => PhotoInput) photo: PhotoInput,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    return {
-      id: (await ctx.prisma.photo.count()) + 1,
-      ...photo,
-    };
-  }
-
-  @Mutation(() => Photo)
-  async updatePhoto(
-    @Arg('id', () => Number) id: number,
-    @Arg('photo', () => PhotoInput) photo: PhotoInput,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const oldPhoto = await ctx.prisma.photo.findUnique({
-      where: { id },
-      include,
-    });
-
-    if (!oldPhoto) {
-      throw new GraphQLError('Photo not found');
-    }
-
-    return {
-      ...oldPhoto,
-      ...photo,
-      album: {
-        ...oldPhoto.album,
-        ...photo.album,
-        user: {
-          ...oldPhoto.album.user,
-          ...photo.album.user,
-          company: {
-            ...oldPhoto.album.user.company,
-            ...photo.album.user.company,
-          },
-          address: {
-            ...oldPhoto.album.user.address,
-            ...photo.album.user.address,
-            geo: {
-              ...oldPhoto.album.user.address?.geo,
-              ...photo.album.user.address?.geo,
-            },
+  return {
+    ...oldPhoto,
+    ...photo,
+    album: {
+      ...oldPhoto.album,
+      ...photo.album,
+      user: {
+        ...oldPhoto.album.user,
+        ...photo.album.user,
+        company: {
+          ...oldPhoto.album.user.company,
+          ...photo.album.user.company,
+        },
+        address: {
+          ...oldPhoto.album.user.address,
+          ...photo.album.user.address,
+          geo: {
+            ...oldPhoto.album.user.address?.geo,
+            ...photo.album.user.address?.geo,
           },
         },
       },
-    };
+    },
+  };
+}
+
+export async function deletePhoto(
+  _: {},
+  { id }: RequireFields<MutationdeletePhotoArgs, 'id'>,
+  { prisma }: MercuriusContext,
+) {
+  const photo = await prisma.photo.findUnique({
+    where: { id },
+  });
+
+  if (!photo) {
+    throw new GraphQLError('Photo not found');
   }
 
-  @Mutation(() => Boolean)
-  async deletePhoto(
-    @Arg('id', () => Number) id: number,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const photo = await ctx.prisma.photo.findUnique({
-      where: { id },
-    });
-
-    if (!photo) {
-      throw new GraphQLError('Photo not found');
-    }
-
-    return true;
-  }
+  return true;
 }

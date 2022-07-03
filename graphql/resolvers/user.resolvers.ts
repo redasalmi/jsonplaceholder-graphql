@@ -1,16 +1,14 @@
 import { GraphQLError } from 'graphql';
-import {
-  Resolver,
-  Query,
-  Arg,
-  Ctx,
-  InputType,
-  Field,
-  Mutation,
-} from 'type-graphql';
 
-import { User } from '~/graphql/schema';
-import type { ContextInterface } from '~/types';
+import type { MercuriusContext } from 'mercurius';
+import type {
+  MutationcreateUserArgs,
+  MutationdeleteUserArgs,
+  MutationupdateUserArgs,
+  QueryuserArgs,
+  RequireFields,
+  User,
+} from '~/graphql/generated';
 
 const include = {
   company: true,
@@ -21,152 +19,92 @@ const include = {
   },
 };
 
-@InputType()
-class GeoLocalisationInput {
-  @Field(() => String)
-  lat: string;
+export async function users(
+  _: {},
+  __: {},
+  { prisma }: MercuriusContext,
+): Promise<User[]> {
+  const users = await prisma.user.findMany({ include });
 
-  @Field(() => String)
-  lng: string;
-}
-
-@InputType()
-class AddressInput {
-  @Field(() => String, { nullable: true })
-  street?: string;
-
-  @Field(() => String, { nullable: true })
-  suite?: string;
-
-  @Field(() => String)
-  city: string;
-
-  @Field(() => String, { nullable: true })
-  zipcode?: string;
-
-  @Field(() => GeoLocalisationInput, { nullable: true })
-  geo?: GeoLocalisationInput;
-}
-
-@InputType()
-class CompanyInput {
-  @Field(() => String)
-  name: string;
-
-  @Field(() => String, { nullable: true })
-  catchPhrase?: string;
-
-  @Field(() => String, { nullable: true })
-  bs?: string;
-}
-
-@InputType()
-export class UserInput {
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String)
-  username: string;
-
-  @Field(() => String, { nullable: true })
-  email?: string;
-
-  @Field(() => String, { nullable: true })
-  address?: AddressInput;
-
-  @Field(() => String, { nullable: true })
-  phone?: string;
-
-  @Field(() => String, { nullable: true })
-  website?: string;
-
-  @Field(() => String, { nullable: true })
-  company?: CompanyInput;
-}
-
-@Resolver()
-export class UserResolver {
-  @Query(() => [User], { nullable: true })
-  async users(@Ctx() ctx: ContextInterface) {
-    return ctx.prisma.user.findMany({
-      include,
-    });
+  if (!users) {
+    throw new GraphQLError('Users not found');
   }
 
-  @Query(() => User)
-  async user(
-    @Arg('id', () => Number) id: number,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const user = await ctx.prisma.user.findUnique({
-      where: { id },
-      include,
-    });
+  return users;
+}
 
-    if (!user) {
-      throw new GraphQLError('User not found');
-    }
+export async function user(
+  _: {},
+  { id }: RequireFields<QueryuserArgs, 'id'>,
+  { prisma }: MercuriusContext,
+): Promise<User> {
+  const user = await prisma.user.findUnique({
+    where: { id },
+    include,
+  });
 
-    return user;
+  if (!user) {
+    throw new GraphQLError('User not found');
   }
 
-  @Mutation(() => User)
-  async createUser(
-    @Arg('user', () => UserInput) user: UserInput,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    return {
-      id: (await ctx.prisma.user.count()) + 1,
-      ...user,
-    };
+  return user;
+}
+
+export async function createUser(
+  _: {},
+  { user }: RequireFields<MutationcreateUserArgs, 'user'>,
+  { prisma }: MercuriusContext,
+): Promise<User> {
+  return {
+    id: (await prisma.user.count()) + 1,
+    ...user,
+  };
+}
+
+export async function updateUser(
+  _: {},
+  { id, user }: RequireFields<MutationupdateUserArgs, 'id' | 'user'>,
+  { prisma }: MercuriusContext,
+) {
+  const oldUser = await prisma.user.findUnique({
+    where: { id },
+    include,
+  });
+
+  if (!oldUser) {
+    throw new GraphQLError('User not found');
   }
 
-  @Mutation(() => User)
-  async updateUser(
-    @Arg('id', () => Number) id: number,
-    @Arg('user', () => UserInput) user: UserInput,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const oldUser = await ctx.prisma.user.findUnique({
-      where: { id },
-      include,
-    });
-
-    if (!oldUser) {
-      throw new GraphQLError('User not found');
-    }
-
-    return {
-      ...oldUser,
-      ...user,
-      company: {
-        ...oldUser.company,
-        ...user.company,
+  return {
+    ...oldUser,
+    ...user,
+    company: {
+      ...oldUser.company,
+      ...user.company,
+    },
+    address: {
+      ...oldUser.address,
+      ...user.address,
+      geo: {
+        ...oldUser.address?.geo,
+        ...user.address?.geo,
       },
-      address: {
-        ...oldUser.address,
-        ...user.address,
-        geo: {
-          ...oldUser.address?.geo,
-          ...user.address?.geo,
-        },
-      },
-    };
+    },
+  };
+}
+
+export async function deleteUser(
+  _: {},
+  { id }: RequireFields<MutationdeleteUserArgs, 'id'>,
+  { prisma }: MercuriusContext,
+) {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!user) {
+    throw new GraphQLError('User not found');
   }
 
-  @Mutation(() => Boolean)
-  async deleteUser(
-    @Arg('id', () => Number) id: number,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const user = await ctx.prisma.user.findUnique({
-      where: { id },
-    });
-
-    if (!user) {
-      throw new GraphQLError('User not found');
-    }
-
-    return true;
-  }
+  return true;
 }

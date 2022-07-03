@@ -1,18 +1,18 @@
-import { Field, ObjectType, ID } from 'type-graphql';
+import { gql } from 'mercurius-codegen';
 
-import { User } from '~/graphql/schema';
+export const TodoType = gql`
+  type Todo {
+    id: Int!
+    title: String!
+    completed: Boolean!
+    user: User!
+  }
+`;
 
-@ObjectType()
-export class Todo {
-  @Field(() => ID)
-  id: number;
-
-  @Field(() => String)
-  title: string;
-
-  @Field(() => Boolean)
-  completed: boolean;
-
-  @Field(() => User)
-  user: User;
-}
+export const TodoInput = gql`
+  input TodoInput {
+    title: String!
+    completed: Boolean!
+    user: UserInput!
+  }
+`;

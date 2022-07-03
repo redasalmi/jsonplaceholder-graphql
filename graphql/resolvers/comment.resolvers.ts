@@ -1,17 +1,14 @@
 import { GraphQLError } from 'graphql';
-import {
-  Resolver,
-  Query,
-  Arg,
-  Ctx,
-  InputType,
-  Field,
-  Mutation,
-} from 'type-graphql';
 
-import { Comment } from '~/graphql/schema';
-import { PostInput } from '~/graphql/resolvers';
-import type { ContextInterface } from '~/types';
+import type { MercuriusContext } from 'mercurius';
+import type {
+  Comment,
+  MutationcreateCommentArgs,
+  MutationdeleteCommentArgs,
+  MutationupdateCommentArgs,
+  QuerycommentArgs,
+  RequireFields,
+} from '~/graphql/generated';
 
 const include = {
   post: {
@@ -30,112 +27,108 @@ const include = {
   },
 };
 
-@InputType()
-class CommentInput {
-  @Field(() => String)
-  name: string;
+export async function comments(
+  _: {},
+  __: {},
+  { prisma }: MercuriusContext,
+): Promise<Comment[]> {
+  const comments = await prisma.comment.findMany({ include });
 
-  @Field(() => String)
-  email: string;
+  if (!comments) {
+    throw new GraphQLError('Comments not found');
+  }
 
-  @Field(() => String)
-  body: string;
-
-  @Field(() => PostInput)
-  post: PostInput;
+  return comments;
 }
 
-@Resolver()
-export class CommentResolver {
-  @Query(() => [Comment], { nullable: true })
-  async comments(@Ctx() ctx: ContextInterface) {
-    return ctx.prisma.comment.findMany({
-      include,
-    });
+export async function comment(
+  _: {},
+  { id }: RequireFields<QuerycommentArgs, 'id'>,
+  { prisma }: MercuriusContext,
+): Promise<Comment> {
+  const comment = await prisma.comment.findUnique({
+    where: { id },
+    include,
+  });
+
+  if (!comment) {
+    throw new GraphQLError('Comment not found');
   }
 
-  @Query(() => Comment)
-  async comment(
-    @Arg('id', () => Number) id: number,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const comment = await ctx.prisma.comment.findUnique({
-      where: { id },
-      include,
-    });
+  return comment;
+}
 
-    if (!comment) {
-      throw new GraphQLError('Comment not found');
-    }
+export async function createComment(
+  _: {},
+  { comment }: RequireFields<MutationcreateCommentArgs, 'comment'>,
+  { prisma }: MercuriusContext,
+): Promise<Comment> {
+  return {
+    id: (await prisma.comment.count()) + 1,
+    ...comment,
+    post: {
+      id: (await prisma.post.count()) + 1,
+      ...comment.post,
+      user: {
+        id: (await prisma.user.count()) + 1,
+        ...comment.post.user,
+      },
+    },
+  };
+}
 
-    return comment;
+export async function updateComment(
+  _: {},
+  { id, comment }: RequireFields<MutationupdateCommentArgs, 'id' | 'comment'>,
+  { prisma }: MercuriusContext,
+) {
+  const oldComment = await prisma.comment.findUnique({
+    where: { id },
+    include,
+  });
+
+  if (!oldComment) {
+    throw new GraphQLError('Comment not found');
   }
 
-  @Mutation(() => Comment)
-  async createComment(
-    @Arg('comment', () => CommentInput) comment: CommentInput,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    return {
-      id: (await ctx.prisma.comment.count()) + 1,
-      ...comment,
-    };
-  }
-
-  @Mutation(() => Comment)
-  async updateComment(
-    @Arg('id', () => Number) id: number,
-    @Arg('comment', () => CommentInput) comment: CommentInput,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const oldComment = await ctx.prisma.comment.findUnique({
-      where: { id },
-      include,
-    });
-
-    if (!oldComment) {
-      throw new GraphQLError('Comment not found');
-    }
-
-    return {
-      ...oldComment,
-      ...comment,
-      post: {
-        ...oldComment.post,
-        ...comment.post,
-        user: {
-          ...oldComment.post.user,
-          ...comment.post.user,
-          company: {
-            ...oldComment.post.user.company,
-            ...comment.post.user.company,
-          },
-          address: {
-            ...oldComment.post.user.address,
-            ...comment.post.user.address,
-            geo: {
-              ...oldComment.post.user.address?.geo,
-              ...comment.post.user.address?.geo,
-            },
+  return {
+    ...oldComment,
+    ...comment,
+    post: {
+      ...oldComment.post,
+      ...comment.post,
+      user: {
+        ...oldComment.post.user,
+        ...comment.post.user,
+        company: {
+          ...oldComment.post.user.company,
+          ...comment.post.user.company,
+        },
+        address: {
+          ...oldComment.post.user.address,
+          ...comment.post.user.address,
+          geo: {
+            ...oldComment.post.user.address?.geo,
+            ...comment.post.user.address?.geo,
           },
         },
       },
-    };
+    },
+  };
+}
+
+export async function deleteComment(
+  _: {},
+  { id }: RequireFields<MutationdeleteCommentArgs, 'id'>,
+  { prisma }: MercuriusContext,
+) {
+  const comment = await prisma.comment.findUnique({
+    where: { id },
+  });
+
+  if (!comment) {
+    throw new GraphQLError('Comment not found');
   }
 
-  @Mutation(() => Boolean)
-  async deleteComment(
-    @Arg('id', () => Number) id: number,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const comment = await ctx.prisma.comment.findUnique({
-      where: { id },
-    });
-
-    if (!comment) {
-      throw new GraphQLError('Comment not found');
-    }
-
-    return true;
-  }
+  return true;
 }

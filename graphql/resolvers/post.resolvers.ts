@@ -1,17 +1,14 @@
 import { GraphQLError } from 'graphql';
-import {
-  Resolver,
-  Query,
-  Arg,
-  Ctx,
-  Mutation,
-  InputType,
-  Field,
-} from 'type-graphql';
 
-import { Post } from '~/graphql/schema';
-import { UserInput } from '~/graphql/resolvers';
-import type { ContextInterface } from '~/types';
+import type { MercuriusContext } from 'mercurius';
+import type {
+  MutationcreatePostArgs,
+  MutationdeletePostArgs,
+  MutationupdatePostArgs,
+  QuerypostArgs,
+  Post,
+  RequireFields,
+} from '~/graphql/generated';
 
 const include = {
   user: {
@@ -26,105 +23,100 @@ const include = {
   },
 };
 
-@InputType()
-export class PostInput {
-  @Field(() => String)
-  title: string;
+export async function posts(
+  _: {},
+  __: {},
+  { prisma }: MercuriusContext,
+): Promise<Post[]> {
+  const posts = await prisma.post.findMany({ include });
 
-  @Field(() => String)
-  body: string;
+  if (!posts) {
+    throw new GraphQLError('Posts not found');
+  }
 
-  @Field(() => UserInput)
-  user: UserInput;
+  return posts;
 }
 
-@Resolver()
-export class PostResolver {
-  @Query(() => [Post], { nullable: true })
-  async posts(@Ctx() ctx: ContextInterface) {
-    return ctx.prisma.post.findMany({
-      include,
-    });
+export async function post(
+  _: {},
+  { id }: RequireFields<QuerypostArgs, 'id'>,
+  { prisma }: MercuriusContext,
+): Promise<Post> {
+  const post = await prisma.post.findUnique({
+    where: { id },
+    include,
+  });
+
+  if (!post) {
+    throw new GraphQLError('Post not found');
   }
 
-  @Query(() => Post)
-  async post(
-    @Arg('id', () => Number) id: number,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const post = await ctx.prisma.post.findUnique({
-      where: { id },
-      include,
-    });
+  return post;
+}
 
-    if (!post) {
-      throw new GraphQLError('Post not found');
-    }
+export async function createPost(
+  _: {},
+  { post }: RequireFields<MutationcreatePostArgs, 'post'>,
+  { prisma }: MercuriusContext,
+): Promise<Post> {
+  return {
+    id: (await prisma.post.count()) + 1,
+    ...post,
+    user: {
+      id: (await prisma.user.count()) + 1,
+      ...post.user,
+    },
+  };
+}
 
-    return post;
+export async function updatePost(
+  _: {},
+  { id, post }: RequireFields<MutationupdatePostArgs, 'id' | 'post'>,
+  { prisma }: MercuriusContext,
+) {
+  const oldPost = await prisma.post.findUnique({
+    where: { id },
+    include,
+  });
+
+  if (!oldPost) {
+    throw new GraphQLError('Post not found');
   }
 
-  @Mutation(() => Post)
-  async createPost(
-    @Arg('post', () => PostInput) post: PostInput,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    return {
-      id: (await ctx.prisma.post.count()) + 1,
-      ...post,
-    };
-  }
-
-  @Mutation(() => Post)
-  async updatePost(
-    @Arg('id', () => Number) id: number,
-    @Arg('post', () => PostInput) post: PostInput,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const oldPost = await ctx.prisma.post.findUnique({
-      where: { id },
-      include,
-    });
-
-    if (!oldPost) {
-      throw new GraphQLError('Post not found');
-    }
-
-    return {
-      ...oldPost,
-      ...post,
-      user: {
-        ...oldPost.user,
-        ...post.user,
-        company: {
-          ...oldPost.user.company,
-          ...post.user.company,
-        },
-        address: {
-          ...oldPost.user.address,
-          ...post.user.address,
-          geo: {
-            ...oldPost.user.address?.geo,
-            ...post.user.address?.geo,
-          },
+  return {
+    ...oldPost,
+    ...post,
+    user: {
+      ...oldPost.user,
+      ...post.user,
+      company: {
+        ...oldPost.user.company,
+        ...post.user.company,
+      },
+      address: {
+        ...oldPost.user.address,
+        ...post.user.address,
+        geo: {
+          ...oldPost.user.address?.geo,
+          ...post.user.address?.geo,
         },
       },
-    };
+    },
+  };
+}
+
+export async function deletePost(
+  _: {},
+  { id }: RequireFields<MutationdeletePostArgs, 'id'>,
+  { prisma }: MercuriusContext,
+) {
+  const post = await prisma.post.findUnique({
+    where: { id },
+  });
+
+  if (!post) {
+    throw new GraphQLError('Post not found');
   }
 
-  @Mutation(() => Boolean)
-  async deletePost(
-    @Arg('id', () => Number) id: number,
-    @Ctx() ctx: ContextInterface,
-  ) {
-    const post = await ctx.prisma.post.findUnique({
-      where: { id },
-    });
-
-    if (!post) {
-      throw new GraphQLError('Post not found');
-    }
-
-    return true;
-  }
+  return true;
 }

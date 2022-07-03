@@ -1,21 +1,20 @@
-import { Field, ObjectType, ID } from 'type-graphql';
+import { gql } from 'mercurius-codegen';
 
-import { Album } from '~/graphql/schema';
+export const PhotoType = gql`
+  type Photo {
+    id: Int!
+    title: String
+    url: String!
+    thumbnailUrl: String
+    album: Album!
+  }
+`;
 
-@ObjectType()
-export class Photo {
-  @Field(() => ID)
-  id: number;
-
-  @Field(() => String, { nullable: true })
-  title: string;
-
-  @Field(() => String)
-  url: string;
-
-  @Field(() => String, { nullable: true })
-  thumbnailUrl: string;
-
-  @Field(() => Album)
-  album: Album;
-}
+export const PhotoInput = gql`
+  input PhotoInput {
+    title: String
+    url: String!
+    thumbnailUrl: String
+    album: AlbumInput!
+  }
+`;
